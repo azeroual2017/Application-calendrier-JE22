@@ -21,14 +21,11 @@ public class DaoJPA implements  IDaoLocal {
     private EntityManager em ;
 
 
-
-
 	
 	@Override
 	public void AddEvent(Event e) {
-
+		
 		em.persist(e);
-
 	}
 	
 	@Override
@@ -43,6 +40,12 @@ public class DaoJPA implements  IDaoLocal {
 		Query req= em.createQuery("select c from JoinEventUser c");
 		return req.getResultList();
 	}
+	
+	@Override
+	public List<Event> getEventByUserId(int idUser) {
+		Query req= em.createQuery("select e from JoinEventUser c join Event e on c.idEvent = e.idEvent  where c.idUser ="+idUser);
+		return req.getResultList();
+	}
 
 	@Override
 	public Event getEventById(int idEvent) {
@@ -55,7 +58,6 @@ public class DaoJPA implements  IDaoLocal {
 	public void AddJoinEventUser(JoinEventUser jeu) {
 
 		em.persist(jeu);
-
 	}
 
 

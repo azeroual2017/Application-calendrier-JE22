@@ -18,6 +18,8 @@ public interface IDaoLocal {
 	 
 	//Find an Event by Id
 	 public Event getEventById(int idEvent);
+	 
+	 public List<Event> getEventByUserId(int idEvent);
 	
 	//add an Event
 	 public void AddEvent(Event e);
