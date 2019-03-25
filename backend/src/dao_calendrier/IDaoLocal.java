@@ -5,13 +5,17 @@ import java.util.*;
 
 import javax.ejb.Local;
 
-import jpa_calendrier.*; 
+import jpa_calendrier.*;
+import models.EventResult;
+import models.EventTypeNbParticipations;
 
 @Local
 public interface IDaoLocal {
 	
 	//Liste of Event
-	 public List<Event> getAllEvent();
+	 public List<EventResult> getAllEvent();
+	 
+	 public EventTypeNbParticipations getAllEventTypes();
 	 
 	//Liste of JoinEventUser
 	 public List<JoinEventUser> getAllJoinEventUser();
@@ -26,4 +30,13 @@ public interface IDaoLocal {
 	 
 	 //add an JoinEventUser
 	 public void AddJoinEventUser(JoinEventUser jeu);
+
+	public void deleteEvent(int id);
+
+	public int getMaxEventId();
+
+	public void deleteJoinEventUser(int id);
+
+	public int getNbOfParticByIdEvent(int idEvent);
+
 }

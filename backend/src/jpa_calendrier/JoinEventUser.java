@@ -26,6 +26,14 @@ public class JoinEventUser implements Serializable {
 	public JoinEventUser() {
 	}
 
+	public JoinEventUser(int idEvent, int idUser, String typeUser) {
+		
+		this.idEvent = idEvent;
+		this.idUser = idUser;
+		this.typeUser = typeUser;
+	}
+
+
 	public int getId() {
 		return this.id;
 	}

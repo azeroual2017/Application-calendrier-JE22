@@ -38,6 +38,7 @@ public class Event implements Serializable {
 	
 	public Event(String title, String typeName, String color, String description, Date start, Date end) {
 		this.title = title;
+		this.typeName = typeName;
 		this.description = description;
 		this.color = color;
 		this.start = start;
