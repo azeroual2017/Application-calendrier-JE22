@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/my_css.css" >
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" >
+    <title>Ajouter un evenement</title>
+</head>
+<body>
+
+<nav class="navbar  navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Home page</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto ">
+            <!--<li class="nav-item">-->
+                <!--<a class="nav-link btn btn-outline-secondary mr-5 " href="#"> Sign in </a>-->
+            <!--</li>-->
+            <!--<li class="nav-item">-->
+                <!--<a class="nav-link btn btn-outline-secondary mr-5 " href="authentification/sign_up.html"> Sign up <span class="sr-only"></span></a>-->
+            <!--</li>-->
+
+        </ul>
+    </div>
+</nav>
+
+<div class="m-5" >
+    <div class="btn-group col-lg-4 offset-lg-4" role="group" aria-label="Basic example">
+        <a type="button" href ="events_calendar.html" class="col-lg-6 btn btn-secondary  ">Afficher mon calendrier</a>
+        <a href ="add_event.html" type="button" class="col-lg-6 btn btn-secondary active">Ajouter un evenement</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <aside class="offset-sm-3 col-sm-6">
+            <div class="card">
+                <article class="card-body">
+                    <h4 class="card-title mb-4 mt-1">Ajouter un evenement</h4>
+                    <div>
+                        <div class="form-group">
+                            <label>Titre</label>
+                            <input id="title" name="titre" class="form-control" placeholder="Match football, randonnée, ..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Type d'événement</label>
+                            <input id="type_evenement" name="type_evenement" class="form-control" placeholder="Sport, Voyage, ..." >
+                        </div>
+                        <div class="form-group">
+                            <label for="debut" class="col-2 col-form-label">Début</label>
+                            <input class="form-control" type="datetime-local" name="debut" id="debut" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fin" class="col-2 col-form-label">Fin</label>
+                            <input class="form-control" type="datetime-local" name="fin" id="fin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="color" class="col-2 col-form-label">Color</label>
+                            <input class="form-control" type="color" value="#563d7c" name="color" id="color">
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="col-3 col-form-label">Description</label>
+                            <textarea name="description" id="description" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="offset-lg-3 col-lg-6">
+                                <button onclick="addEvent()" class="btn btn-primary btn-block"> Sign up  </button>
+                            </div>
+                        </div> <!-- form-group// -->
+                    </div>
+                </article>
+            </div> <!-- card.// -->
+
+        </aside> <!-- col.// -->
+    </div> <!-- row.// -->
+
+</div>
+<script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js" ></script>
+<script>
+    $(document).ready(function() {
+        $('#events_list').DataTable();
+    } );
+
+    function addEvent() {
+
+        var title = document.getElementById("title").value;
+        var typeName = document.getElementById("type_evenement").value;
+        var start = document.getElementById("debut").value.replace("T"," ")+":00";
+        var end = document.getElementById("fin").value.replace("T"," ");
+        var color = document.getElementById("color").value;
+        var description = document.getElementById("description").value;
+
+        var idUser = '1';
+        var typeUser= 'public';
+
+        var url = "http://localhost:8080/backend_calendrier/event";
+        var event = JSON.stringify([{title: title ,typeName : typeName , start: start , end: end , color: color, description: description},{idUser: idUser ,typeUser : typeUser}]);
+        console.log(event);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: event,
+            success: function(result){
+                alert(result.response);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            },
+            dataType: "json",
+            contentType : "application/json"
+        });
+    }
+</script>
+</body>
+</html>
