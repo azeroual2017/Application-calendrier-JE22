@@ -124,6 +124,7 @@ public class WSCal extends Application{
 	
 	@POST
 	@Path("/event")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String addEvent(String json){
 	
@@ -150,7 +151,7 @@ public class WSCal extends Application{
 			int idEvent = dao.getMaxEventId();
 			JoinEventUser join = new JoinEventUser(idEvent, joinJson.getInt("idUser"), joinJson.getString("typeUser"));
 			dao.AddJoinEventUser(join);
-			return "ok";
+			return "{\r\"response\":\"ok\"\r}";
 		} catch (Exception e1) {
 			
 			e1.printStackTrace();
